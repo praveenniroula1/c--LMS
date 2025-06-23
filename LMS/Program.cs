@@ -28,7 +28,7 @@ namespace LMS
                 {
                     case "1":
                         Book book = new Book();
-                        Console.Write("Enter Book ID:");
+                        Console.Write("Enter Book IDs:");
                        var bookIds = int.Parse( Console.ReadLine());
                         Console.Write("Enter Book Title:");
                         var bookTitle= Console.ReadLine();
