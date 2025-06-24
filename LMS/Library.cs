@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS
 {
@@ -13,11 +16,31 @@ namespace LMS
 
         public void AddBooks(Book book)
         {
-            books.Add(book);
+            var data=File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
+            books.AddRange(addingBookFromFileToBooksList); ////adding a list of book from files to list above
+            books.Add(book); //adding a new book
+            var jsonData = JsonSerializer.Serialize(books); //everything is on books old list, new book
+
+
+
+            File.WriteAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json", jsonData);
+           //writes all in one json
+            
+            
+            
+            //Console.WriteLine(jsonData);
+            //List<Book> books = JsonSerializer.Deserialize<List<Book>>(jsonString);
+            //books.Add(data);
+            //File.WriteAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json", books);
         }
 
         public void ListBooks()
         {
+           var data= File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
+            books.AddRange(addingBookFromFileToBooksList);
+
             foreach (var book in books)
             {
                 Console.WriteLine($"[{book.BookId}] {book.Title} by {book.Author} - {book.Status}");
