@@ -25,10 +25,11 @@ namespace LMS
 
 
             File.WriteAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json", jsonData);
-           //writes all in one json
-            
-            
-            
+            //writes all in one json
+            books.Clear();
+
+
+
             //Console.WriteLine(jsonData);
             //List<Book> books = JsonSerializer.Deserialize<List<Book>>(jsonString);
             //books.Add(data);
@@ -37,7 +38,7 @@ namespace LMS
 
         public void ListBooks()
         {
-           var data= File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
             var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
             books.AddRange(addingBookFromFileToBooksList);
 
@@ -45,6 +46,7 @@ namespace LMS
             {
                 Console.WriteLine($"[{book.BookId}] {book.Title} by {book.Author} - {book.Status}");
             }
+            books.Clear();
         }
 
         public List<Book> SearchBooks(string keyword)
