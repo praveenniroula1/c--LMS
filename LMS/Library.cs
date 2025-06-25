@@ -16,7 +16,7 @@ namespace LMS
 
         public void AddBooks(Book book)
         {
-            var data=File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
             var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
             books.AddRange(addingBookFromFileToBooksList); ////adding a list of book from files to list above
             books.Add(book); //adding a new book
@@ -38,6 +38,7 @@ namespace LMS
 
         public void ListBooks()
         {
+            books.Clear();
             var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
             var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
             books.AddRange(addingBookFromFileToBooksList);
@@ -51,7 +52,14 @@ namespace LMS
 
         public List<Book> SearchBooks(string keyword)
         {
-            return books.FindAll(book => book.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            books.Clear();
+            var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var booksToAddonList = JsonSerializer.Deserialize<List<Book>>(data);
+            books.AddRange(booksToAddonList);
+            var bookSearched = books.FindAll(book => book.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) || book.Author.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            books.Clear();
+            books.AddRange(bookSearched);
+            return books;
         }
 
         public void BorrowBook(int bookId)
@@ -64,15 +72,15 @@ namespace LMS
             }
             else
             {
-                Console.WriteLine(book?.Title + " "+ "is not available");
+                Console.WriteLine(book?.Title + " " + "is not available");
             }
 
         }
 
         public void ReturnBook(int bookId)
         {
-            var book =books.FirstOrDefault(book => book.BookId == bookId);
-            if(book != null && book.Status != BookStatus.Available)
+            var book = books.FirstOrDefault(book => book.BookId == bookId);
+            if (book != null && book.Status != BookStatus.Available)
             {
                 Console.WriteLine("Book has been returned" + " " + book.Title);
                 book.Status = BookStatus.Available;

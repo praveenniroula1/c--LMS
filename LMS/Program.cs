@@ -9,6 +9,7 @@ namespace LMS
         {
             Library lib = new Library();
             bool exit = false;
+          
 
             while (!exit) {
 
@@ -40,13 +41,12 @@ namespace LMS
                         {
                             case "1":
                                 Book book = new Book();
-                                Console.Write("Enter Book IDs:");
-                                var bookIds = int.Parse(Console.ReadLine());
                                 Console.Write("Enter Book Title:");
                                 var bookTitle = Console.ReadLine();
                                 Console.Write("Enter Book AuthorName:");
                                 var bookAuthor = Console.ReadLine();
-                                book.BookId = bookIds;
+                                int bookUniqueId = int.Parse(DateTime.Now.ToString("HHmmssfff"));
+                                book.BookId =bookUniqueId;
                                 book.Title = bookTitle;
                                 book.Author = bookAuthor;
                                 book.Status = BookStatus.Available;
@@ -72,7 +72,11 @@ namespace LMS
                                 var bookSearch = lib.SearchBooks(keywords);
                                 if (bookSearch.Count != 0)
                                 {
-                                    lib.ListBooks();
+                                    foreach(var bok in bookSearch)
+                                    {
+                                        Console.WriteLine($"[{bok.BookId}] {bok.Title} by {bok.Author} - {bok.Status}");
+
+                                    }
                                     Console.WriteLine("=======================");
 
                                 }
