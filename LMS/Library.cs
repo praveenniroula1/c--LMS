@@ -12,11 +12,11 @@ namespace LMS
     internal class Library
     {
         private List<Book> books = new List<Book>();
-
+        string pathFile = Helper.GetPath();
 
         public void AddBooks(Book book)
         {
-            var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var data = File.ReadAllText(pathFile);
             var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
             books.AddRange(addingBookFromFileToBooksList); ////adding a list of book from files to list above
             books.Add(book); //adding a new book
@@ -24,7 +24,7 @@ namespace LMS
 
 
 
-            File.WriteAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json", jsonData);
+            File.WriteAllText(pathFile, jsonData);
             //writes all in one json
             books.Clear();
 
@@ -39,7 +39,7 @@ namespace LMS
         public void ListBooks()
         {
             books.Clear();
-            var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var data = File.ReadAllText(pathFile);
             var addingBookFromFileToBooksList = JsonSerializer.Deserialize<List<Book>>(data);
             books.AddRange(addingBookFromFileToBooksList);
 
@@ -53,7 +53,7 @@ namespace LMS
         public List<Book> SearchBooks(string keyword)
         {
             books.Clear();
-            var data = File.ReadAllText("C:\\Users\\prave\\OneDrive\\Desktop\\Projects\\Project1\\LMS\\LMS\\LMS\\BookList.json");
+            var data = File.ReadAllText(pathFile);
             var booksToAddonList = JsonSerializer.Deserialize<List<Book>>(data);
             books.AddRange(booksToAddonList);
             var bookSearched = books.FindAll(book => book.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) || book.Author.Contains(keyword, StringComparison.OrdinalIgnoreCase));
